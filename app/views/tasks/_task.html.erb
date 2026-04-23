@@ -1,18 +1,41 @@
-<div id="<%= dom_id task %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= task.title %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= task.description %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Due date:</strong>
-    <%= task.due_date %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Completed:</strong>
-    <%= task.completed? ? "Yes" : "No" %>
-  </div>
+<div class="mb-6">
+  <h1 class="text-3xl font-bold text-gray-800">My Tasks</h1>
+  <p class="text-gray-500 mt-1">Stay on top of everything 💪</p>
+</div>
+
+<div class="space-y-3">
+  <% @tasks.each do |task| %>
+    <div class="bg-white rounded-2xl shadow-sm border border-violet-100 p-5 flex items-center justify-between hover:shadow-md transition">
+      <div class="flex items-center gap-4">
+        <div class="<%= task.completed ? 'bg-green-100 text-green-600' : 'bg-violet-100 text-violet-600' %> rounded-full p-2 text-lg">
+          <%= task.completed ? '✅' : '🔲' %>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 <%= 'line-through text-gray-400' if task.completed %>">
+            <%= task.title %>
+          </p>
+          <p class="text-sm text-gray-400 mt-0.5">
+            📅 <%= task.due_date.present? ? task.due_date.strftime("%B %d, %Y") : "No due date" %>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="<%= task.completed ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700' %> text-xs font-semibold px-3 py-1 rounded-full">
+          <%= task.completed ? 'Done' : 'In Progress' %>
+        </span>
+        <%= link_to "View", task, class: "text-sm text-violet-600 hover:underline font-medium" %>
+        <%= link_to "Edit", edit_task_path(task), class: "text-sm text-indigo-600 hover:underline font-medium" %>
+        <%= link_to "Delete", task, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-sm text-red-400 hover:underline font-medium" %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @tasks.empty? %>
+    <div class="text-center py-20 text-gray-400">
+      <p class="text-5xl mb-4">📋</p>
+      <p class="text-lg font-medium">No tasks yet!</p>
+      <p class="text-sm mt-1">Click "New Task" to get started.</p>
+    </div>
+  <% end %>
 </div>

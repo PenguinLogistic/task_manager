@@ -3,4 +3,16 @@
 
 require_relative "config/application"
 
+task :server do
+  sh "ruby bin/rails server"
+end
+
+task :console do
+  sh "ruby bin/rails console"
+end
+
+task :migrate do
+  sh "ruby bin/rails db:migrate"
+end
+
 Rails.application.load_tasks
