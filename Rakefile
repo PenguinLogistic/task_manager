@@ -15,4 +15,8 @@ task :migrate do
   sh "ruby bin/rails db:migrate"
 end
 
+task :tailwind do
+  sh "ruby bin/rails tailwindcss:watch"
+end
+
 Rails.application.load_tasks
