@@ -4,6 +4,18 @@ class TasksController < ApplicationController
   # GET /tasks or /tasks.json
   def index
     @tasks = Task.all
+
+    if params[:status] == "completed"
+      @tasks = @tasks.where(completed: true)
+    elsif params[:status] == "in_progress"
+      @tasks = @tasks.where(completed: false)
+    end
+
+    if params[:sort] == "due_date_asc"
+      @tasks = @tasks.order(due_date: :asc)
+    elsif params[:sort] == "due_date_desc"
+      @tasks = @tasks.order(due_date: :desc)
+    end
   end
 
   # GET /tasks/1 or /tasks/1.json
