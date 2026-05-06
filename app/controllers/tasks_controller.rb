@@ -5,6 +5,10 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all
 
+    if params[:search].present?
+      @tasks = @tasks.where("title LIKE ?", "%#{params[:search]}%")
+    end
+
     if params[:status] == "completed"
       @tasks = @tasks.where(completed: true)
     elsif params[:status] == "in_progress"
