@@ -4,6 +4,8 @@ class TasksController < ApplicationController
   # GET /tasks or /tasks.json
   def index
     @tasks = Task.all
+    @total_count = Task.count
+    @completed_count = Task.where(completed: true).count
 
     if params[:search].present?
       @tasks = @tasks.where("title LIKE ?", "%#{params[:search]}%")

@@ -15,8 +15,11 @@ task :migrate do
   sh "ruby bin/rails db:migrate"
 end
 
-task :tailwind do
-  sh "ruby bin/rails tailwindcss:watch"
+task :dev do
+  t1 = Thread.new { sh "ruby bin/rails server" }
+  t2 = Thread.new { sh "ruby bin/rails tailwindcss:watch" }
+  t1.join
+  t2.join
 end
 
 Rails.application.load_tasks
